@@ -1,0 +1,33 @@
+{
+    "name": "tumi-soft/sequeltalk",
+    "type": "library",
+    "description": "Simple PHP tool to help you quickly generate data for Smalltalk from an existing SQL DB.",
+    "keywords": [
+        "php",
+        "smalltalk",
+        "sql",
+        "pdo",
+        "daskalos"
+    ],
+    "homepage": "https://github.com/tumi-soft/sequeltalk",
+    "license": "apache-2.0",
+    "authors": [
+        {
+            "name": "Michal Tuček",
+            "email": "michaltk1@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-pdo": "*"
+    },
+    "require-dev": {},
+    "config": {
+        "process-timeout": 0
+    },
+    "autoload": {},
+    "autoload-dev": {},
+    "scripts": {
+        "start": "php -S localhost:8080 -t ."
+    }
+}
