@@ -9,20 +9,33 @@ use PDOException;
 
 class App
 {
-    public function run(): void {
+    /** @var PDO PDO connector */
+    private PDO $conn;
+
+    /**
+     * App constructor.
+     *
+     * @throws ErrorException
+     */
+    public function __construct()
+    {
         // FIXME: Better way to specify .env destination than this?
+        // Initialize .env configuration
         $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
         $dotenv->load();
 
         try {
-            $conn = new PDO("mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']}", $_ENV['DB_USER'], $_ENV['DB_PASS']);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
+            $this->conn = new PDO("mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']}", $_ENV['DB_USER'], $_ENV['DB_PASS']);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
             // Handle the PDOException
             throw new ErrorException('Couldn\'t logged into the DB: ' . $e->getMessage());
             // Change this part to suit your needs
         }
+    }
 
+    public function run(): void
+    {
         /* specifies, if you want to treat foreign keys in table as a object references */
         $foreignKeyAsObject = false;
 
@@ -68,7 +81,7 @@ class App
             echo $this->collectionGenerator("c", $start, $end, $variable);
             exit;
         } else {
-            $query = $conn->query("SELECT * FROM {$database}.{$table}");
+            $query = $this->conn->query("SELECT * FROM {$database}.{$table}");
             foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $index => $row) {
                 $index++; // Use for variable number but start with 1 instead of 0
                 $smalltalk = "{$variable}{$index} := {$object} new.<br>{$variable}{$index} ";
@@ -79,7 +92,7 @@ class App
                     if ($foreignKeyAsObject & strpos($column, '_id') !== false) {
                         if (empty($value)) continue;
                         $column = explode('_id', $column)[0];
-                        $smalltalk .= $column . ': ' . $column[0] .$value;
+                        $smalltalk .= $column . ': ' . $column[0] . $value;
                     } else {
                         if (strpos($column, 'id') !== false) continue; // Skip id collumns
                         if (empty($value)) continue;
@@ -91,7 +104,7 @@ class App
                             $value = $value[1] . ' ' . $value[2] . ' ' . $value[0];
                         }
 
-                        if(is_numeric($value)){
+                        if (is_numeric($value)) {
                             $smalltalk .= $column . ": " . $value . "";
                         } else {
                             $smalltalk .= $column . ": '" . $value . "'";
@@ -122,13 +135,14 @@ class App
      * @param $variable
      * @return string
      */
-    function collectionGenerator($collection, $start, $end, $variable): string {
+    function collectionGenerator($collection, $start, $end, $variable): string
+    {
         // Create new collection
         $record = "{$collection} := new Set.<br>{$collection} ";
 
         // Add records to collection
         for ($i = $start; $i <= $end; $i++) {
-            $record .= 'add: '. $variable . $i . "; ";
+            $record .= 'add: ' . $variable . $i . "; ";
         }
 
         // Remove the last character using substr
