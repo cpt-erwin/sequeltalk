@@ -1,7 +1,7 @@
 {
     "name": "tumi-soft/sequeltalk",
     "type": "library",
-    "description": "Simple PHP tool to help you quickly generate data for Smalltalk from an existing SQL DB.",
+    "description": "Simple PHP tool to help you quickly generate data for Smalltalk from an existing MySQL DB.",
     "keywords": [
         "php",
         "smalltalk",
