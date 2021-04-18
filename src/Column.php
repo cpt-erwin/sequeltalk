@@ -73,7 +73,9 @@ class Column
      */
     public function getRecord(string $value): string
     {
-        return "{$this->variableName}: {$this->valuePrefix}{$value}";
+        $value = $this->valuePrefix . $value;
+        $value = SmalltalkDataType::formatValue($value, $this->dataType);
+        return "{$this->variableName}: {$value}";
     }
 
     private function setVariableName(?string $variableName): void
