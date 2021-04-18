@@ -4,6 +4,9 @@
 namespace Sequeltak;
 
 
+use ErrorException;
+use LogicException;
+
 /**
  * Class Column
  *
@@ -68,17 +71,31 @@ class Column
     }
 
     /**
+     * Creates a piece of Smalltalk code that sets value of a object's attribute.
      * @param string $value
      * @return string
+     * @throws ErrorException <p>
+     * When accessing non-implemented methods.
+     * </p>
+     * @throws LogicException <p>
+     * When $dataType is not a constant from this class.
+     * </p>
      */
     public function getRecord(string $value): string
     {
         $value = $this->valuePrefix . $value;
         $value = SmalltalkDataType::formatValue($value, $this->dataType);
-        return "{$this->variableName}: {$value}";
+        return "$this->variableName: $value";
     }
 
-    private function setVariableName(?string $variableName): void
+    /**
+     * Setter of variable name.
+     * @param ?string $variableName [optional] <p>
+     * If $variableName is null, sets the $this->variableName from $this->name based on default naming convention.<br>
+     * Otherwise use the specified $variableName.
+     * </p>
+     */
+    private function setVariableName(?string $variableName = null): void
     {
         if (is_null($variableName)){
             $this->variableName = lcfirst(str_replace(" ", "", ucwords(str_replace("_", " ", $this->name))));

@@ -4,6 +4,8 @@
 namespace Sequeltak;
 
 
+use ErrorException;
+use LogicException;
 use PDO;
 
 /**
@@ -14,20 +16,27 @@ use PDO;
  */
 class Table
 {
-    /** @var string Table name */
+    /** @var string Table name. */
     public string $name;
 
-    /** @var Column[] Table columns */
+    /** @var Column[] Table columns. */
     public array $columns;
 
-    /** @var ?string Database that contains this table */
+    /** @var ?string Database that contains this table. */
     public ?string $database;
 
     /**
      * Table constructor.
-     * @param string $name
-     * @param Column[] $columns
-     * @param ?string $database
+     * @param string $name <p>
+     * Name of the database table.
+     * </p>
+     * @param Column[] $columns <p>
+     * List of table columns represented via Column objects.
+     * </p>
+     * @param ?string $database [optional] <p>
+     * Name of the database where the desired table is.<br>
+     * Do not set any value if the table is in the default .env database.
+     * </p>
      */
     public function __construct(string $name, array $columns, ?string $database = null)
     {
@@ -37,6 +46,12 @@ class Table
         $this->database = $database;
     }
 
+    /**
+     * Creates a simple record of how the Smalltalk object should be created.
+     * @return string <p>
+     * Smalltalk object name with attributes and their values.
+     * </p>
+     */
     public function getObjectSchema(): string {
         $schema = "{$this->getObjectName()}<br>";
         foreach ($this->columns as $column) {
@@ -46,14 +61,26 @@ class Table
         return $schema;
     }
 
-    public function getData()
+    /**
+     * Parses SQL table rows to a Smalltalk syntax.
+     * @return string<p>
+     * Formatted Smalltalk friendly data from SQL table.
+     * </p>
+     * @throws ErrorException <p>
+     * When accessing non-implemented methods.
+     * </p>
+     * @throws LogicException <p>
+     * When $dataType is not a constant from this class.
+     * </p>
+     */
+    public function getData(): string
     {
         $data = "";
         $query = App::$app->conn->query($this->generateSQL());
         foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $index => $row) {
             if ($_ENV['DEBUG']) App::$app->debug('row', $row);
             $var = $this->getVariableName() . ++$index;
-            $data .= "{$var} := {$var} new.<br>{$var} ";
+            $data .= "$var := $var new.<br>$var ";
 
             foreach ($row as $column => $value) {
                 if (is_null($value)) continue;
@@ -69,19 +96,23 @@ class Table
 
     /**
      * Returns the name of a SQL table with database if specified.
-     * @return string SQL table name
+     * @return string <p>
+     * SQL table name
+     * </p>
      */
     private function getTableName(): string
     {
         if (is_null($this->database)) {
             return $this->name;
         }
-        return "{$this->database}.{$this->name}";
+        return "$this->database.$this->name";
     }
 
     /**
      * Generate SQL query based on specified Table attribute's values and Columns.
-     * @return string Generated SQL query
+     * @return string <p>
+     * Generated SQL query.
+     * </p>
      */
     private function generateSQL(): string
     {
@@ -98,7 +129,9 @@ class Table
 
     /**
      * Modifies the input array by changing the default indexes to name of columns.
-     * @param Column[] $columns Collection of table columns
+     * @param Column[] $columns <p>
+     * Collection of table columns
+     * </p>
      */
     private function setColumns(array $columns): void
     {
@@ -111,7 +144,9 @@ class Table
 
     /**
      * Generates object name according to selected naming convention.
-     * @return string
+     * @return string <p>
+     * Formatted object name based on default naming convention.
+     * </p>
      */
     public function getObjectName(): string
     {
@@ -120,7 +155,9 @@ class Table
 
     /**
      * Generates variable name according to selected naming convention.
-     * @return string
+     * @return string <p>
+     * Formatted variable name based on default naming convention.
+     * </p>
      */
     public function getVariableName(): string
     {

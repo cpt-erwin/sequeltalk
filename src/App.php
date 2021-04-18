@@ -4,6 +4,7 @@ namespace Sequeltak;
 
 use Dotenv\Dotenv;
 use ErrorException;
+use LogicException;
 use PDO;
 use PDOException;
 
@@ -15,13 +16,13 @@ use PDOException;
  */
 class App
 {
-    /** @var App Store an instance of itself in itself to make it globally accessible */
+    /** @var App Store an instance of itself in itself to make it globally accessible. */
     public static App $app;
 
-    /** @var PDO PDO connector */
+    /** @var PDO PDO connector. */
     public PDO $conn;
 
-    /** @var Table[]  */
+    /** @var Table[] Collection of SQL tables represented via Table objects. */
     private array $tables = [];
 
     /**
@@ -37,7 +38,7 @@ class App
         $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
         $dotenv->load();
 
-        // Set $_ENV['DEBUG'] value as boolen instead of string
+        // Set $_ENV['DEBUG'] value as boolean instead of string
         $_ENV['DEBUG'] = filter_var($_ENV['DEBUG'], FILTER_VALIDATE_BOOLEAN);
 
         try {
@@ -45,11 +46,20 @@ class App
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             // Handle the PDOException
-            throw new ErrorException('Couldn\'t logged into the DB: ' . $e->getMessage());
+            throw new ErrorException("Couldn't logged into the DB: " . $e->getMessage());
             // Change this part to suit your needs
         }
     }
 
+    /**
+     * Executes the application.
+     * @throws ErrorException <p>
+     * When accessing non-implemented methods.
+     * </p>
+     * @throws LogicException <p>
+     * When $dataType is not a constant from this class.
+     * </p>
+     */
     public function run(): void
     {
         foreach ($this->tables as $table) {
@@ -75,12 +85,14 @@ class App
      * @param int $start [optional] <p>
      * Additionally, you can change the starting number of the first entry.
      * </p>
-     * @return string
+     * @return string<p>
+     * New collection object with entries.
+     * </p>
      */
     function collectionGenerator(string $collection, string $variable, int $iterations, int $start = 1): string
     {
         // Create new collection
-        $record = "{$collection} := new Set.<br>{$collection} ";
+        $record = "$collection := new Set.<br>$collection ";
 
         // Treat $start as a offset in order to keep the specified number of iterations
         $end = ($iterations + ($start - 1));
@@ -101,13 +113,17 @@ class App
 
     /**
      * Simple tool for debugging observed variables.
-     * @param string $tag
-     * @param mixed $content
+     * @param string $tag<p>
+     * Keyword for the debug message.
+     * </p>
+     * @param mixed $content<p>
+     * Content of the observed value.
+     * </p>
      */
     public function debug(string $tag, $content): void
     {
         echo "<pre style='white-space: pre-wrap; background-color: #ebebeb; padding: .1rem 0 1rem 0;'>";
-        echo "<h3 style='text-align: center;'>{$tag}</h3><hr><div style='padding: 0 1rem;'>";
+        echo "<h3 style='text-align: center;'>$tag</h3><hr><div style='padding: 0 1rem;'>";
         print_r($content);
         echo "</div></pre>";
     }
