@@ -21,6 +21,9 @@ class Column
     /** @var ?string Object's attribute's name. */
     public ?string $variableName;
 
+    /** @var ?string Object's value's prefix. */
+    public ?string $valuePrefix;
+
     /**
      * Column constructor.
      * @param string $name <p>
@@ -56,11 +59,30 @@ class Column
      * If no value is provided it will generate the attribute's name automatically based on column's name.
      * </p>
      */
-    public function __construct(string $name, string $dataType, ?string $variableName = null)
+    public function __construct(string $name, string $dataType, ?string $variableName = null, ?string $valuePrefix = null)
     {
         $this->name = $name;
         $this->dataType = $dataType;
-        $this->variableName = $variableName;
+        $this->setVariableName($variableName);
+        $this->valuePrefix = $valuePrefix;
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function getRecord(string $value): string
+    {
+        return "{$this->variableName}: {$this->valuePrefix}{$value}";
+    }
+
+    private function setVariableName(?string $variableName): void
+    {
+        if (is_null($variableName)){
+            $this->variableName = lcfirst(str_replace(" ", "", ucwords(str_replace("_", " ", $this->name))));
+        } else {
+            $this->variableName = $variableName;
+        }
     }
 
 
