@@ -1,8 +1,9 @@
 <?php
 
-require './vendor/autoload.php';
+require '../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+// FIXME: Better way to specify .env destination than this?
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
 try {

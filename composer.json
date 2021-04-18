@@ -28,6 +28,6 @@
     "autoload": {},
     "autoload-dev": {},
     "scripts": {
-        "start": "php -S localhost:8080 -t ."
+        "start": "php -S localhost:8080 -t public"
     }
 }
