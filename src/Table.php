@@ -12,19 +12,23 @@ class Table
     /** @var Column[] Table columns */
     public array $columns;
 
+    /** @var ?string Database that contains this table */
+    public ?string $database;
+
     /**
      * Table constructor.
      * @param string $name
      * @param Column[] $columns
+     * @param ?string $database
      */
-    public function __construct(string $name, array $columns)
+    public function __construct(string $name, array $columns, ?string $database = null)
     {
         $this->name = $name;
         $this->columns = $columns;
+        $this->database = $database;
     }
 
     public function getObjectSchema(): string {
-        // TODO: Implement me!
         return '';
     }
 }
