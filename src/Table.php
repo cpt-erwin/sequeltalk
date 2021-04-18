@@ -158,6 +158,8 @@ class Table
      */
     public function getVariableName(): string
     {
-        return $this->name[0];
+        $expr = '/(?<=\s|^)[A-Z]/';
+        preg_match_all($expr, ucwords(str_replace("_", " ", $this->name)), $matches);
+        return strtolower(implode('', $matches[0]));
     }
 }
