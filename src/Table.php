@@ -118,9 +118,9 @@ class Table
     {
         $sql = "SELECT ";
         foreach ($this->columns as $column) {
-            $sql .= $column->name . ', ';
+            $sql .= '`' . $column->name . '`, ';
         }
-        $sql = substr($sql, 0, -2) . " FROM {$this->getTableName()}";
+        $sql = substr($sql, 0, -2) . " FROM `{$this->getTableName()}`";
 
         if ($_ENV['DEBUG']) App::$app->debug('SQL', $sql);
 
