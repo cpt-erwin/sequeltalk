@@ -11,18 +11,18 @@ require '../vendor/autoload.php';
 
 $app = new App();
 
+$app->addTable(new Table('user', [
+    new Column('firstName', SmalltalkDataType::STRING),
+    new Column('lastName', SmalltalkDataType::STRING),
+    new Column('birthdate', SmalltalkDataType::DATE)
+]));
+
 $app->addTable(new Table('billing_information', [
     new Column('country', SmalltalkDataType::STRING),
     new Column('city', SmalltalkDataType::STRING),
     new Column('street', SmalltalkDataType::STRING),
     new Column('zipCode', SmalltalkDataType::STRING),
     new Column('user_id', SmalltalkDataType::OBJECT,'user', 'u') // Foreign key
-]));
-
-$app->addTable(new Table('user', [
-    new Column('firstName', SmalltalkDataType::STRING),
-    new Column('lastName', SmalltalkDataType::STRING),
-    new Column('birthdate', SmalltalkDataType::DATE)
 ]));
 
 $app->addTable(new Table('product', [
@@ -47,14 +47,8 @@ $app->addTable(new Table('order_item', [
 $app->addTable(new Table('order', [
     new Column('createdAt', SmalltalkDataType::DATE),
     new Column('state', SmalltalkDataType::NUMBER),
-    new Column('user_id', SmalltalkDataType::OBJECT, 'user', 'u') // Foreign key
-]));
-
-$app->addTable(new Table('invoice', [
-    new Column('issueDate', SmalltalkDataType::DATE),
-    new Column('dueDate', SmalltalkDataType::DATE),
-    new Column('payDate', SmalltalkDataType::DATE),
-    new Column('billing_information_id', SmalltalkDataType::OBJECT, 'billingInformation', 'bi') // Foreign key
+    new Column('user_id', SmalltalkDataType::OBJECT, 'user', 'u'), // Foreign key
+    new Column('coupon_id', SmalltalkDataType::OBJECT, 'coupon', 'c') // Foreign key
 ]));
 
 $app->run();
