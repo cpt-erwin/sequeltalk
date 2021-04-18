@@ -4,9 +4,10 @@
     "description": "Simple PHP tool to help you quickly generate data for Smalltalk from an existing MySQL DB.",
     "keywords": [
         "php",
-        "smalltalk",
+        "mysql",
         "sql",
         "pdo",
+        "smalltalk",
         "daskalos"
     ],
     "homepage": "https://github.com/tumi-soft/sequeltalk",
@@ -20,7 +21,8 @@
     "require": {
         "php": ">=7.4",
         "ext-pdo": "*",
-        "vlucas/phpdotenv": "^5.3"
+        "vlucas/phpdotenv": "^5.3",
+        "filp/whoops": "^2.12"
     },
     "config": {
         "process-timeout": 0

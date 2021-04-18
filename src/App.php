@@ -7,6 +7,8 @@ use ErrorException;
 use LogicException;
 use PDO;
 use PDOException;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 /**
  * Class App
@@ -27,11 +29,15 @@ class App
 
     /**
      * App constructor.
-     * @throws ErrorException
+     * @throws PDOException
      */
     public function __construct()
     {
         self::$app = $this;
+
+        $whoops = new Run;
+        $whoops->pushHandler(new PrettyPageHandler);
+        $whoops->register();
 
         // FIXME: Better way to specify .env destination than this?
         // Initialize .env configuration
@@ -41,14 +47,8 @@ class App
         // Set $_ENV['DEBUG'] value as boolean instead of string
         $_ENV['DEBUG'] = filter_var($_ENV['DEBUG'], FILTER_VALIDATE_BOOLEAN);
 
-        try {
-            $this->conn = new PDO("mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']}", $_ENV['DB_USER'], $_ENV['DB_PASS']);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            // Handle the PDOException
-            throw new ErrorException("Couldn't logged into the DB: " . $e->getMessage());
-            // Change this part to suit your needs
-        }
+        $this->conn = new PDO("mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']}", $_ENV['DB_USER'], $_ENV['DB_PASS']);
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     /**
