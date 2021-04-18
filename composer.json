@@ -25,7 +25,11 @@
     "config": {
         "process-timeout": 0
     },
-    "autoload": {},
+    "autoload": {
+        "psr-4": {
+            "Sequeltak\\": "src"
+        }
+    },
     "autoload-dev": {},
     "scripts": {
         "start": "php -S localhost:8080 -t public"
