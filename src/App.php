@@ -59,19 +59,13 @@ class App
 
         /* if true it will generate add: {$variable}{$index} from start to end */
         /* useful if you want to generate code to add specific objects to some collection */
-        $manual = false;
+        $manual = true;
         $start = 1;
         $end = 10;
 
         /* manual generator for adding items into collection */
         if ($manual) {
-            $echo = "";
-            for ($i = $start; $i <= $end; $i++) {
-                $echo .= 'add: '. $variable . $i . "; ";
-            }
-            //Remove the last character using substr
-            $echo = substr($echo, 0, -2);
-            echo $echo . '.';
+            echo $this->collectionGenerator("c", $start, $end, $variable);
             exit;
         } else {
             $query = $conn->query("SELECT * FROM {$database}.{$table}");
@@ -117,5 +111,32 @@ class App
                 echo $smalltalk . "<br>";
             }
         }
+    }
+
+    /**
+     * Manually generates collection initialization with records added into itself.
+     *
+     * @param $collection
+     * @param $start
+     * @param $end
+     * @param $variable
+     * @return string
+     */
+    function collectionGenerator($collection, $start, $end, $variable): string {
+        // Create new collection
+        $record = "{$collection} := new Set.<br>{$collection} ";
+
+        // Add records to collection
+        for ($i = $start; $i <= $end; $i++) {
+            $record .= 'add: '. $variable . $i . "; ";
+        }
+
+        // Remove the last character using substr
+        $record = substr($record, 0, -2);
+
+        // Add . at the end
+        $record .= '.';
+
+        return $record;
     }
 }
