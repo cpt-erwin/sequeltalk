@@ -74,9 +74,6 @@ class Column
      * Creates a piece of Smalltalk code that sets value of a object's attribute.
      * @param string $value
      * @return string
-     * @throws ErrorException <p>
-     * When accessing non-implemented methods.
-     * </p>
      * @throws LogicException <p>
      * When $dataType is not a constant from this class.
      * </p>

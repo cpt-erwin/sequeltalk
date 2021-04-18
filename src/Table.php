@@ -66,9 +66,6 @@ class Table
      * @return string<p>
      * Formatted Smalltalk friendly data from SQL table.
      * </p>
-     * @throws ErrorException <p>
-     * When accessing non-implemented methods.
-     * </p>
      * @throws LogicException <p>
      * When $dataType is not a constant from this class.
      * </p>

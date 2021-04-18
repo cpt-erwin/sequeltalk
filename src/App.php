@@ -53,9 +53,6 @@ class App
 
     /**
      * Executes the application.
-     * @throws ErrorException <p>
-     * When accessing non-implemented methods.
-     * </p>
      * @throws LogicException <p>
      * When $dataType is not a constant from this class.
      * </p>

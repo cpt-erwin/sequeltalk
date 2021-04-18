@@ -18,9 +18,6 @@ class SmalltalkDataType
     public const STRING = 'String';
     public const NUMBER = 'Number';
     public const DATE = 'Date';
-    public const SET = 'Set';
-    public const LIST = 'List';
-    public const BAG = 'Bag';
     public const OBJECT = 'Object';
 
     /**
@@ -33,9 +30,6 @@ class SmalltalkDataType
      * </p>
      * @return string <p>
      * Formatted value for Smalltalk.
-     * </p>
-     * @throws ErrorException <p>
-     * When accessing non-implemented methods.
      * </p>
      * @throws LogicException <p>
      * When $dataType is not a constant from this class.
@@ -51,10 +45,6 @@ class SmalltalkDataType
                 return "'" . $value . "'";
             case self::DATE:
                 return self::formatDate($value);
-            case self::SET:
-            case self::LIST:
-            case self::BAG:
-                throw new ErrorException("Method not yet implemented!");
             default:
                 throw new LogicException("");
         }
