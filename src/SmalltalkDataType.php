@@ -4,6 +4,12 @@
 namespace Sequeltak;
 
 
+/**
+ * Class SmalltalkDataType
+ *
+ * @author Michal Tuček <michaltk1@gmail.com>
+ * @package Sequeltak
+ */
 class SmalltalkDataType
 {
     public const STRING = 'String';

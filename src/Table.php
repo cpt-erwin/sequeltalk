@@ -4,6 +4,12 @@
 namespace Sequeltak;
 
 
+/**
+ * Class Table
+ *
+ * @author Michal Tuček <michaltk1@gmail.com>
+ * @package Sequeltak
+ */
 class Table
 {
     /** @var string Table name */

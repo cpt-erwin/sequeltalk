@@ -4,6 +4,12 @@
 namespace Sequeltak;
 
 
+/**
+ * Class Column
+ *
+ * @author Michal Tuček <michaltk1@gmail.com>
+ * @package Sequeltak
+ */
 class Column
 {
     /** @var string Column name */
@@ -17,7 +23,7 @@ class Column
 
     /**
      * Column constructor.
-     * @param string $name<p>
+     * @param string $name <p>
      * Column name.
      * </p>
      * @param string $dataType <p>

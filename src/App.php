@@ -7,6 +7,12 @@ use ErrorException;
 use PDO;
 use PDOException;
 
+/**
+ * Class App
+ *
+ * @author Michal Tuček <michaltk1@gmail.com>
+ * @package Sequeltak
+ */
 class App
 {
     /** @var PDO PDO connector */
