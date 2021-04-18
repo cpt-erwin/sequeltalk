@@ -3,7 +3,6 @@
 namespace Sequeltak;
 
 use Dotenv\Dotenv;
-use ErrorException;
 use LogicException;
 use PDO;
 use PDOException;
@@ -64,48 +63,8 @@ class App
             echo "<pre>" . $table->getObjectSchema() . "</pre>";
 
             echo "\"-------------- {$table->getObjectName()} records --------------\"<br><br>";
-            echo $table->getData() . "<br><br>";
+            echo $table->getData() . "";
         }
-    }
-
-    /**
-     * Manually generates collection initialization with records added into itself.
-     * @param string $collection <p>
-     * Name for the new collection variable.
-     * </p>
-     * @param string $variable <p>
-     * Name variable being added to the collection.
-     * </p>
-     * @param int $iterations <p>
-     * How many iterations should do loop go trough.
-     * </p>
-     * @param int $start [optional] <p>
-     * Additionally, you can change the starting number of the first entry.
-     * </p>
-     * @return string<p>
-     * New collection object with entries.
-     * </p>
-     */
-    function collectionGenerator(string $collection, string $variable, int $iterations, int $start = 1): string
-    {
-        // Create new collection
-        $record = "$collection := new Set.<br>$collection ";
-
-        // Treat $start as a offset in order to keep the specified number of iterations
-        $end = ($iterations + ($start - 1));
-
-        // Add records to collection
-        for ($i = $start; $i <= $end; $i++) {
-            $record .= 'add: ' . $variable . $i . "; ";
-        }
-
-        // Remove the last character using substr
-        $record = substr($record, 0, -2);
-
-        // Add . at the end
-        $record .= '.';
-
-        return $record;
     }
 
     /**
