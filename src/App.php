@@ -67,23 +67,6 @@ class App
         }
     }
 
-    /**
-     * Simple tool for debugging observed variables.
-     * @param string $tag<p>
-     * Keyword for the debug message.
-     * </p>
-     * @param mixed $content<p>
-     * Content of the observed value.
-     * </p>
-     */
-    public function debug(string $tag, $content): void
-    {
-        echo "<pre style='white-space: pre-wrap; background-color: #ebebeb; padding: .1rem 0 1rem 0;'>";
-        echo "<h3 style='text-align: center;'>$tag</h3><hr><div style='padding: 0 1rem;'>";
-        print_r($content);
-        echo "</div></pre>";
-    }
-
     public function addTable(Table $table): void
     {
         $this->tables[] = $table;

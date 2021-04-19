@@ -42,7 +42,7 @@ class Table
     {
         $this->name = $name;
         $this->setColumns($columns);
-        if ($_ENV['DEBUG']) App::$app->debug('columns', $this->columns);
+        if ($_ENV['DEBUG']) Debugger::debugArray('columns', $this->columns);
         $this->database = $database;
     }
 
@@ -55,7 +55,7 @@ class Table
     public function getObjectSchema(): string {
         $schema = "{$this->getObjectName()}<br>";
         foreach ($this->columns as $column) {
-            if ($_ENV['DEBUG']) App::$app->debug('column', $column);
+            if ($_ENV['DEBUG']) Debugger::debugObject('column', $column);
             $schema .= "\t" . $column->name . ': ' . $column->dataType . '<br>';
         }
         return $schema;
@@ -75,7 +75,7 @@ class Table
         $data = "";
         $query = App::$app->conn->query($this->generateSQL());
         foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $index => $row) {
-            if ($_ENV['DEBUG']) App::$app->debug('row', $row);
+            if ($_ENV['DEBUG']) Debugger::debugArray('row', $row);
             $var = $this->getVariableName() . ++$index;
             $data .= "$var := $var new.<br>$var ";
 
@@ -119,7 +119,7 @@ class Table
         }
         $sql = substr($sql, 0, -2) . " FROM `{$this->getTableName()}`";
 
-        if ($_ENV['DEBUG']) App::$app->debug('SQL', $sql);
+        if ($_ENV['DEBUG']) Debugger::debug('SQL', $sql);
 
         return $sql;
     }
