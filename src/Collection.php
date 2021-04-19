@@ -28,10 +28,13 @@ class Collection
 
     /**
      * Collection constructor.
-     * @param ?string $heading
+     * @param string|null $heading
      * @param string $collectionVariable
      * @param string $recordVariable
-     * @param array $records
+     * @param array $recordsCollection
+     * @param string|null $attribute
+     * @param string|null $appendCode
+     * @param bool $collectionExists
      */
     public function __construct(
         ?string $heading,
