@@ -14,7 +14,7 @@ class Helper
 {
     static function getIndexArray(int $size): array {
         $arr = [];
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= $size; $i++) {
             $arr[] = $i;
         }
         return $arr;
