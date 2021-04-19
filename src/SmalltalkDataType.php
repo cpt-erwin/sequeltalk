@@ -4,7 +4,6 @@
 namespace Sequeltak;
 
 
-use ErrorException;
 use LogicException;
 
 /**
@@ -52,14 +51,14 @@ class SmalltalkDataType
 
     /**
      * Formats raw SQL date into a Smalltalk compatible value.
-     * @param $value <p>
+     * @param string $value <p>
      * Raw SQL value.
      * </p>
      * @return string <p>
      * Formatted date value for Smalltalk.
      * </p>
      */
-    private static function formatDate($value): string
+    private static function formatDate(string $value): string
     {
         $value = explode('-', $value);
         return "'" . $value[1] . " " . $value[2] . " " . $value[0] . "' asDate" ;
