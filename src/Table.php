@@ -76,7 +76,7 @@ class Table
         $query = App::$app->conn->query($this->generateSQL());
         foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $index => $row) {
             if ($_ENV['DEBUG']) Debugger::debugArray('row', $row);
-            $var = $this->getVariableName() . ++$index;
+            $var = $this->getVariableName() . ($index + 1);
             $data .= "$var := $var new.<br>$var ";
 
             foreach ($row as $column => $value) {
