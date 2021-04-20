@@ -4,7 +4,6 @@
 namespace Sequeltak;
 
 
-use ErrorException;
 use LogicException;
 
 /**
@@ -46,15 +45,6 @@ class Column
      * For a <b>date value</b> &#9; use <b>SmalltalkDataType::DATE</b>
      * </p>
      * <p>
-     * For a <b>collection value</b> &#9; use <b>SmalltalkDataType::SET</b>
-     * </p>
-     * <p>
-     * For a <b>list value</b> &#9; use <b>SmalltalkDataType::LIST</b>
-     * </p>
-     * <p>
-     * For a <b>bag value</b> &#9; use <b>SmalltalkDataType::BAG</b>
-     * </p>
-     * <p>
      * For a <b>object value</b> &#9; use <b>SmalltalkDataType::OBJECT</b>
      * </p>
      * @param ?string $variableName [optional] <p>
@@ -80,7 +70,7 @@ class Column
      */
     public function getRecord(string $value): string
     {
-        $value = $this->valuePrefix . $value;
+        $value = "$this->valuePrefix $value";
         $value = SmalltalkDataType::formatValue($value, $this->dataType);
         return "$this->variableName: $value";
     }
@@ -100,6 +90,4 @@ class Column
             $this->variableName = $variableName;
         }
     }
-
-
 }
