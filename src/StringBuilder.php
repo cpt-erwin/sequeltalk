@@ -40,6 +40,15 @@ class StringBuilder
     }
 
     /**
+     * Adds space into a builder content.
+     */
+    public function appendSpace(): StringBuilder
+    {
+        $this->content .= " ";
+        return $this;
+    }
+
+    /**
      * Returns the built content as a string.
      * @return string <p>
      * Builder content.
