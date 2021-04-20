@@ -1,39 +1,40 @@
 {
-    "name": "tumi-soft/sequeltalk",
-    "type": "library",
-    "description": "Simple PHP tool to help you quickly generate data for Smalltalk from an existing MySQL DB.",
-    "keywords": [
-        "php",
-        "mysql",
-        "sql",
-        "pdo",
-        "smalltalk",
-        "daskalos"
-    ],
-    "homepage": "https://github.com/tumi-soft/sequeltalk",
-    "license": "apache-2.0",
-    "authors": [
-        {
-            "name": "Michal Tuček",
-            "email": "michaltk1@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=7.4",
-        "ext-pdo": "*",
-        "vlucas/phpdotenv": "^5.3",
-        "filp/whoops": "^2.12"
-    },
-    "config": {
-        "process-timeout": 0
-    },
-    "autoload": {
-        "psr-4": {
-            "Sequeltak\\": "src"
-        }
-    },
-    "autoload-dev": {},
-    "scripts": {
-        "start": "php -S localhost:8080 -t public"
+  "name": "tumi-soft/sequeltalk",
+  "type": "library",
+  "description": "Simple PHP tool to help you quickly generate data for Smalltalk from an existing MySQL DB.",
+  "keywords": [
+    "php",
+    "mysql",
+    "sql",
+    "pdo",
+    "smalltalk",
+    "daskalos"
+  ],
+  "homepage": "https://github.com/tumi-soft/sequeltalk",
+  "license": "apache-2.0",
+  "authors": [
+    {
+      "name": "Michal Tuček",
+      "email": "michaltk1@gmail.com"
     }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "^5.3",
+    "filp/whoops": "^2.12",
+    "ext-json": "*"
+  },
+  "config": {
+    "process-timeout": 0
+  },
+  "autoload": {
+    "psr-4": {
+      "Sequeltak\\": "src"
+    }
+  },
+  "autoload-dev": {},
+  "scripts": {
+    "start": "php -S localhost:8080 -t public"
+  }
 }
