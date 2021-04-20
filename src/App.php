@@ -58,12 +58,18 @@ class App
      */
     public function run(): void
     {
+        $stringBuilder = new StringBuilder();
         foreach ($this->tables as $table) {
-            echo "\"-------------- {$table->getObjectName()} object schema --------------\"<br>";
-            echo "<pre>" . $table->getObjectSchema() . "</pre>";
-
-            echo "\"-------------- {$table->getObjectName()} records --------------\"<br><br>";
-            echo $table->getData() . "";
+            echo $stringBuilder
+                ->appendLine("\"-------------- {$table->getObjectName()} object schema --------------\"")
+                ->append("<pre>")
+                ->append($table->getObjectSchema())
+                ->append("</pre>")
+                ->appendLine("\"-------------- {$table->getObjectName()} records --------------\"")
+                ->append("<pre>")
+                ->append($table->getData())
+                ->append("</pre>")
+                ->build();
         }
     }
 
