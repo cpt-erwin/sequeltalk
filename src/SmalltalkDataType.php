@@ -21,10 +21,10 @@ class SmalltalkDataType
 
     /**
      * Formats raw SQL value into a Smalltalk compatible value.
-     * @param $value<p>
+     * @param $value <p>
      * Raw SQL value.
      * </p>
-     * @param string $dataType<p>
+     * @param string $dataType <p>
      * Must be a constant from this class.
      * </p>
      * @return string <p>
@@ -41,7 +41,7 @@ class SmalltalkDataType
             case self::NUMBER:
                 return $value;
             case self::STRING:
-                return "'" . $value . "'";
+                return "'$value'";
             case self::DATE:
                 return self::formatDate($value);
             default:
@@ -61,6 +61,6 @@ class SmalltalkDataType
     private static function formatDate(string $value): string
     {
         $value = explode('-', $value);
-        return "'" . $value[1] . " " . $value[2] . " " . $value[0] . "' asDate" ;
+        return "'$value[1] $value[2] $value[0]' asDate";
     }
 }
