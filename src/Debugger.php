@@ -23,10 +23,13 @@ class Debugger
      */
     public static function debug(string $tag, string $content): void
     {
-        echo "<pre style='white-space: pre-wrap; background-color: #ebebeb; padding: .1rem 0 1rem 0;'>";
-        echo "<h3 style='text-align: center;'>$tag</h3><hr><div style='padding: 0 1rem;'>";
-        echo $content;
-        echo "</div></pre>";
+        $stringBuilder = new StringBuilder();
+        echo $stringBuilder
+            ->append("<pre style='white-space: pre-wrap; background-color: #ebebeb; padding: .1rem 0 1rem 0;'>")
+            ->append("<h3 style='text-align: center;'>$tag</h3><hr><div style='padding: 0 1rem;'>")
+            ->append($content)
+            ->append("</div></pre>")
+            ->build();
     }
 
     /**
