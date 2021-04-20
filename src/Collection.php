@@ -57,31 +57,53 @@ class Collection
 
     function printCollection(): void
     {
-        if (!is_null($this->heading))
-            echo "\"-------------- {$this->heading} --------------\"<br><br>";
+        $stringBuilder = new StringBuilder();
+        if (!is_null($this->heading)) {
+            $stringBuilder
+                ->appendLine("\"-------------- $this->heading --------------\"");
+        }
+
+        $stringBuilder->append('<pre>');
 
         foreach ($this->recordsCollection as $index => $records) {
-            $number = sizeof($this->recordsCollection) > 1 ? ++$index : '';
+            $number = sizeof($this->recordsCollection) > 1 ? ($index + 1) : '';
 
-            $collection = '';
             if (!$this->collectionExists) {
-                $collection .= $this->collectionVariable . $number . ' := Set new.<br>';
+                $stringBuilder
+                    ->append($this->collectionVariable)
+                    ->append($number)
+                    ->appendLine(' := Set new.');
             }
 
-            $collection .= $this->collectionVariable . $number . ' ' . (is_null($this->attribute) ? '' : $this->attribute . ' ');
-            foreach ($records as $record) {
-                $collection .= 'add: ' . $this->recordVariable . $record . '; ';
+            $stringBuilder
+                ->append($this->collectionVariable)
+                ->append($number)
+                ->appendSpace()
+                ->append(is_null($this->attribute) ? '' : $this->attribute)
+                ->appendSpace();
+
+            foreach ($records as $key => $record) {
+                $stringBuilder
+                    ->append('add: ')
+                    ->append($this->recordVariable)
+                    ->append($record);
+
+                if ($key === array_key_last($records)) continue;
+
+                $stringBuilder->append('; ');
             }
-            //Remove the last character using substr
-            $collection = substr($collection, 0, -2);
 
             if (!is_null($this->appendCode)) {
-                $collection .= '; ' . $this->appendCode;
+                $stringBuilder
+                    ->append('; ')
+                    ->append($this->appendCode);
             }
 
-            $collection .= '.<br>';
-            echo $collection;
+            $stringBuilder->appendLine('.');
         }
-        echo '<br><br>';
+
+        echo $stringBuilder
+            ->append('</pre>')
+            ->build();
     }
 }
