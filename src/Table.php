@@ -4,7 +4,6 @@
 namespace Sequeltak;
 
 
-use ErrorException;
 use LogicException;
 use PDO;
 
@@ -53,12 +52,22 @@ class Table
      * </p>
      */
     public function getObjectSchema(): string {
-        $schema = "{$this->getObjectName()}<br>";
+
+        $schema = new StringBuilder();
+
+        $schema
+            ->append($this->getObjectName())
+            ->append("<br>");
+
         foreach ($this->columns as $column) {
             if ($_ENV['DEBUG']) Debugger::debugObject('column', $column);
-            $schema .= "\t" . $column->name . ': ' . $column->dataType . '<br>';
+            $schema
+                ->append("\t")
+                ->append($column->name)
+                ->append(': ')
+                ->appendLine($column->dataType);
         }
-        return $schema;
+        return $schema->build();
     }
 
     /**
@@ -72,23 +81,29 @@ class Table
      */
     public function getData(): string
     {
-        $data = "";
+        $data = new StringBuilder();
         $query = App::$app->conn->query($this->generateSQL());
         foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $index => $row) {
             if ($_ENV['DEBUG']) Debugger::debugArray('row', $row);
             $var = $this->getVariableName() . ($index + 1);
-            $data .= "$var := $var new.<br>$var ";
+
+            $data
+                ->appendLine("$var := $var new.")
+                ->append("$var ");
 
             foreach ($row as $column => $value) {
                 if (is_null($value)) continue;
-                $data .= $this->columns[$column]->getRecord($value) . '; ';
-            }
 
-            //Remove the last character using substr
-            $data = substr($data, 0, -2);
-            $data .= '.<br><br>';
+                $data
+                    ->appendLine($this->columns[$column]->getRecord($value));
+
+                if ($column === array_key_last($row)) continue;
+
+                $data->append('; ');
+            }
+            $data->appendLine('.');
         }
-        return $data;
+        return $data->build();
     }
 
     /**
@@ -113,15 +128,28 @@ class Table
      */
     private function generateSQL(): string
     {
-        $sql = "SELECT ";
-        foreach ($this->columns as $column) {
-            $sql .= '`' . $column->name . '`, ';
+        $sql = new StringBuilder();;
+        $sql->append("SELECT ");
+
+        foreach ($this->columns as $index => $column) {
+            $sql
+                ->append('`')
+                ->append($column->name)
+                ->append('`');
+
+            if ($index === array_key_last($this->columns)) continue;
+
+            $sql->append(', ');
         }
-        $sql = substr($sql, 0, -2) . " FROM `{$this->getTableName()}`";
 
-        if ($_ENV['DEBUG']) Debugger::debug('SQL', $sql);
+        $sql
+            ->append(" FROM `")
+            ->append($this->getTableName())
+            ->append("`");
 
-        return $sql;
+        if ($_ENV['DEBUG']) Debugger::debug('SQL', $sql->build());
+
+        return $sql->build();
     }
 
     /**
